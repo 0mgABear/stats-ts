@@ -1,4 +1,6 @@
 import { MatchData } from "./MatchData";
+import { WinsAnalysis } from "./analyzers/WinsAnalysis";
+import { HtmlReport } from "./reportTargets/HtmlReports";
 
 //exporting so that they can be imported in other files so that Ts can check that we are implementing the interfaces correctly
 export interface Analyzer {
@@ -10,6 +12,9 @@ export interface OutputTarget {
 }
 
 export class Summary {
+  static summarise(team: string): Summary {
+    return new Summary(new WinsAnalysis(team), new HtmlReport());
+  }
   constructor(public analyzer: Analyzer, public outputTarget: OutputTarget) {}
 
   buildAndPrintReport(matches: MatchData[]): void {
